@@ -23,3 +23,7 @@ erl_crash.dump
 hospital-*.tar
 
 .idea/
+
+log/
+
+*.iml

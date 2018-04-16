@@ -35,7 +35,11 @@ defmodule Technician do
     }, state = [channel, _, name]) do
 
     IO.puts("#{inspect(name)} [x] Received [#{meta.routing_key}] #{payload}")
-    :timer.sleep(10000)
+    payload
+    |> to_charlist
+    |> Enum.count(fn x -> x == ?. end)
+    |> Kernel.*(1000)
+    |> :timer.sleep()
 
     Basic.publish(channel, "", reply_to,
       "Examination for: #{payload}, type: #{meta.routing_key}, DONE!", correlation_id: correlation_id)
