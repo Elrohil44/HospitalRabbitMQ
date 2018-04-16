@@ -73,6 +73,8 @@ defmodule Doctor do
     {:ok, %{queue: queue_examine}} = AMQP.Queue.declare(channel, "", exclusive: true)
 
     AMQP.Queue.bind(channel, queue_logs, "hospital_logs", routing_key: "info")
+    AMQP.Queue.bind(channel, queue_examine, "hospital_examinations", routing_key: queue_examine)
+
 
     AMQP.Basic.consume(channel, queue_logs, logs_consumer, no_ack: true)
     AMQP.Basic.consume(channel, queue_examine, examinations_consumer, no_ack: true)

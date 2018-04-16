@@ -41,10 +41,7 @@ defmodule Technician do
     |> Kernel.*(1000)
     |> :timer.sleep()
 
-    Basic.publish(channel, "", reply_to,
-      "Examination for: #{payload}, type: #{meta.routing_key}, DONE!", correlation_id: correlation_id)
-
-    Basic.publish(channel, @exam_exchange, "log.#{payload}",
+    Basic.publish(channel, @exam_exchange, reply_to,
       "Examination for: #{payload}, type: #{meta.routing_key}, DONE!", correlation_id: correlation_id)
 
     Basic.ack(channel, meta.delivery_tag)
